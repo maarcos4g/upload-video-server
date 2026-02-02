@@ -8,6 +8,13 @@
       "when": 1770041276578,
       "tag": "0000_early_killmonger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1770043856767,
+      "tag": "0001_same_santa_claus",
+      "breakpoints": true
     }
   ]
 }
