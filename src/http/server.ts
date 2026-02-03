@@ -1,11 +1,11 @@
 import { server } from "./app";
-import { createAccount } from "./auth/create-account";
-import postgres from 'postgres'
-import { drizzle } from 'drizzle-orm/postgres-js'
-import { schema } from "@/database/schemas";
-import { env } from "@/env";
+import { authenticateWithMagicLink } from "./routes/auth/authenticate-with-magic-link";
+import { createAccount } from "./routes/auth/create-account";
+import { sendAuthenticationLink } from "./routes/auth/send-authentication-link";
 
 server.register(createAccount)
+server.register(sendAuthenticationLink)
+server.register(authenticateWithMagicLink)
 
 server.listen({
   port: 3333,
