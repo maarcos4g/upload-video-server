@@ -8,6 +8,14 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
   app.addHook('preHandler', async (request, reply) => {
     request.getCurrentUserId = async () => {
       try {
+        const token = request.cookies.auth
+
+        console.log('Token:', token)
+
+        if (!token) {
+          throw new Error('No token provided')
+        }
+
         const { sub } = await request.jwtVerify<{ sub: string }>()
         return sub
       } catch (error) {
@@ -45,20 +53,20 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
         sub: string
       }) => {
         reply.setCookie(
-          'auth', 
+          'auth',
           await reply.jwtSign(payload, {
             sign: {
               expiresIn: '7 days'
             }
-          }), 
+          }),
           {
-          httpOnly: true,
-          maxAge: 7 * 24 * 60 * 60, //7 days
-          path: '/'
-        })
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60, //7 days
+            path: '/'
+          })
       },
       request.signOut = async () => {
-        await reply.clearCookie('auth')
+        await reply.clearCookie('auth', { path: '/' })
       }
   })
 })

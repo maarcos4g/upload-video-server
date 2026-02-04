@@ -11,7 +11,7 @@ server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
 server.register(fastifyCors, {
-  origin: '*', //url do frontend
+  origin: env.AUTH_REDIRECT_URL, //url do frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
   credentials: true,
 })
@@ -19,11 +19,15 @@ server.register(fastifyCors, {
 server.register(fastifyCookie, {
   secret: env.COOKIE_SECRET,
   hook: 'onRequest',
-  parseOptions: {}
+  parseOptions: {},
 })
 
 server.register(fastifyJwt, {
-  secret: env.JWT_SECRET
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'auth',
+    signed: false
+  }
 })
 
 export { server }
