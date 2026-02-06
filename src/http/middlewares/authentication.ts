@@ -23,7 +23,7 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
       }
     },
 
-      request.getUserMembership = async (organizationId: string) => {
+      request.getUserMembership = async (slug: string) => {
         const userId = await request.getCurrentUserId()
 
         const [member] = await database
@@ -32,7 +32,7 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
           .where(
             and(
               eq(schema.membership.userId, userId),
-              eq(schema.membership.organizationId, organizationId)
+              eq(schema.organization.slug, slug)
             )
           )
           .innerJoin(

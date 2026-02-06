@@ -5,12 +5,20 @@ import { createAccount } from "./routes/auth/create-account";
 import { getProfile } from "./routes/auth/get-profile";
 import { sendAuthenticationLink } from "./routes/auth/send-authentication-link";
 import { signOut } from "./routes/auth/sign-out";
+import { createOrganization } from "./routes/organizations/create-organization";
+import { getMembership } from "./routes/organizations/get-membership";
+import { getOrganization } from "./routes/organizations/get-organization";
+import { getOrganizations } from "./routes/organizations/get-organizations";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
 server.register(authenticateWithMagicLink)
 server.register(signOut)
 server.register(getProfile)
+server.register(createOrganization)
+server.register(getOrganizations)
+server.register(getOrganization)
+server.register(getMembership)
 
 server.listen({
   port: 3333,

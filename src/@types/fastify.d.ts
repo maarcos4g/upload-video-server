@@ -6,7 +6,7 @@ import { membership as Membership } from '@/database/schemas/membership'
 declare module 'fastify' {
   export interface FastifyRequest {
     getCurrentUserId(): Promise<string>
-    getUserMembership(organizationId: string): Promise<{
+    getUserMembership(slug: string): Promise<{
       organization: Organization,
       membership: Membership
     }>

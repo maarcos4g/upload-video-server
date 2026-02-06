@@ -7,6 +7,7 @@ export const organization = pgTable('organizations', {
   slug: text().notNull().unique(),
   domain: text().unique(),
   shouldAttachUsersByDomain: boolean().default(false),
+  avatarURL: text(),
   createdAt: timestamp().defaultNow(),
   updatedAt: timestamp(),
   ownerId: uuid().references(() => user.id).notNull()
