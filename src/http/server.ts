@@ -5,6 +5,8 @@ import { createAccount } from "./routes/auth/create-account";
 import { getProfile } from "./routes/auth/get-profile";
 import { sendAuthenticationLink } from "./routes/auth/send-authentication-link";
 import { signOut } from "./routes/auth/sign-out";
+import { createCollection } from "./routes/collections/create-collection";
+import { getCollections } from "./routes/collections/get-collections";
 import { createOrganization } from "./routes/organizations/create-organization";
 import { getMembership } from "./routes/organizations/get-membership";
 import { getOrganization } from "./routes/organizations/get-organization";
@@ -19,6 +21,8 @@ server.register(createOrganization)
 server.register(getOrganizations)
 server.register(getOrganization)
 server.register(getMembership)
+server.register(createCollection)
+server.register(getCollections)
 
 server.listen({
   port: 3333,
