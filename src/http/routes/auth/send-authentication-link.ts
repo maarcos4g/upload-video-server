@@ -1,6 +1,7 @@
 import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
 import { env } from "@/env";
+import { BadRequestError } from "@/http/errors/bad-request-error";
 import { eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { randomUUID } from "node:crypto";
@@ -33,7 +34,7 @@ export const sendAuthenticationLink: FastifyPluginAsyncZod = async (server) => {
         )
 
         if (!user) {
-          throw new Error('User does not exist with this email')
+          throw new BadRequestError('User does not exist with this email')
         }
 
         const authLinkCode = randomUUID()

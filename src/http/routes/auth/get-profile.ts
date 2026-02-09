@@ -1,5 +1,6 @@
 import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
+import { BadRequestError } from "@/http/errors/bad-request-error";
 import { authenticationMiddleware } from "@/http/middlewares/authentication";
 import { eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
@@ -37,7 +38,7 @@ export const getProfile: FastifyPluginAsyncZod = async (server) => {
           )
 
         if (!user) {
-          throw new Error('User not found')
+          throw new BadRequestError('User not found')
         }
 
         return reply.send({

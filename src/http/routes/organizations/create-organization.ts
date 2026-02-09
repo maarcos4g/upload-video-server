@@ -1,5 +1,6 @@
 import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
+import { BadRequestError } from "@/http/errors/bad-request-error";
 import { authenticationMiddleware } from "@/http/middlewares/authentication";
 import { createSlug } from "@/utils/create-slug";
 import { eq } from "drizzle-orm";
@@ -42,7 +43,7 @@ export const createOrganization: FastifyPluginAsyncZod = async (server) => {
 
             if (organizationByDomain) {
               console.error('Another Organization with same domain already exists')
-              throw new Error('Another Organization with same domain already exists')
+              throw new BadRequestError('Another Organization with same domain already exists')
             }
           }
 

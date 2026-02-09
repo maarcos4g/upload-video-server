@@ -3,6 +3,7 @@ import { schema } from "@/database/schemas";
 import { and, eq } from "drizzle-orm";
 import { FastifyInstance } from "fastify";
 import fastifyPlugin from "fastify-plugin";
+import { UnauthorizedError } from "../errors/unauthorized";
 
 export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async (request, reply) => {
@@ -13,13 +14,13 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
         console.log('Token:', token)
 
         if (!token) {
-          throw new Error('No token provided')
+          throw new UnauthorizedError('No token provided')
         }
 
         const { sub } = await request.jwtVerify<{ sub: string }>()
         return sub
       } catch (error) {
-        throw new Error('Invalid token')
+        throw new UnauthorizedError('Invalid token')
       }
     },
 
@@ -41,7 +42,7 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
           )
 
         if (!member) {
-          throw new Error(`You're not a member of this organization`)
+          throw new UnauthorizedError(`You're not a member of this organization`)
         }
 
         const { organizations: organization, memberships: membership } = member

@@ -4,11 +4,14 @@ import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastify from 'fastify'
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod'
+import { errorHandler } from './error-handler'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
+
+server.setErrorHandler(errorHandler)
 
 server.register(fastifyCors, {
   origin: env.AUTH_REDIRECT_URL, //url do frontend

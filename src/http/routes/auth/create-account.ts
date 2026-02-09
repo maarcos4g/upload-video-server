@@ -1,5 +1,6 @@
 import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
+import { BadRequestError } from "@/http/errors/bad-request-error";
 import { and, eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod/v4";
@@ -34,7 +35,7 @@ export const createAccount: FastifyPluginAsyncZod = async (server) => {
               )
 
             if (userWithSameEmail) {
-              throw new Error('User with same email already exists')
+              throw new BadRequestError('User with same email already exists')
             }
 
             const [autoJoinOrganization] = await transaction
@@ -71,7 +72,7 @@ export const createAccount: FastifyPluginAsyncZod = async (server) => {
           })
         } catch (error) {
           console.warn(error)
-          throw new Error('Internal Server Error')
+          throw new BadRequestError('Internal Server Error')
         }
 
       }

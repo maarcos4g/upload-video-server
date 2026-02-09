@@ -1,5 +1,6 @@
 import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
+import { BadRequestError } from "@/http/errors/bad-request-error";
 import { authenticationMiddleware } from "@/http/middlewares/authentication";
 import { and, eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
@@ -50,7 +51,7 @@ export const createCollection: FastifyPluginAsyncZod = async (server) => {
             )
 
             if (!parentCollection) {
-              throw new Error('A coleção pai não existe ou pertence a outra organização')
+              throw new BadRequestError('A coleção pai não existe ou pertence a outra organização')
             }
         }
 
