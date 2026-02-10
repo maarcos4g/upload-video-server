@@ -11,6 +11,7 @@ import { createOrganization } from "./routes/organizations/create-organization";
 import { getMembership } from "./routes/organizations/get-membership";
 import { getOrganization } from "./routes/organizations/get-organization";
 import { getOrganizations } from "./routes/organizations/get-organizations";
+import { uploadAvatar } from "./routes/upload-avatar";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -23,6 +24,7 @@ server.register(getOrganization)
 server.register(getMembership)
 server.register(createCollection)
 server.register(getCollections)
+server.register(uploadAvatar)
 
 server.listen({
   port: 3333,

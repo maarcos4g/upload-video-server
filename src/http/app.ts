@@ -5,6 +5,7 @@ import fastifyJwt from '@fastify/jwt'
 import fastify from 'fastify'
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod'
 import { errorHandler } from './error-handler'
+import { fastifyMultipart } from '@fastify/multipart'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -32,5 +33,7 @@ server.register(fastifyJwt, {
     signed: false
   }
 })
+
+server.register(fastifyMultipart)
 
 export { server }
