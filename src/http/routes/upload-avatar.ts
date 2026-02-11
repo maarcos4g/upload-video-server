@@ -76,7 +76,7 @@ export const uploadAvatar: FastifyPluginAsyncZod = async (server) => {
           try {
             if (metadata.organization_slug) {
               await database.update(schema.organization)
-                .set({ avatarURL })
+                .set({ avatarURL, updatedAt: new Date() })
                 .where(
                   eq(schema.organization.slug, metadata.organization_slug)
                 )
@@ -84,7 +84,7 @@ export const uploadAvatar: FastifyPluginAsyncZod = async (server) => {
               const targetId = metadata.user_id || userId
 
               await database.update(schema.user)
-                .set({ avatarURL })
+                .set({ avatarURL, updatedAt: new Date() })
                 .where(
                   eq(schema.user.id, targetId)
                 )
