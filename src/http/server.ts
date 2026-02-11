@@ -7,6 +7,10 @@ import { sendAuthenticationLink } from "./routes/auth/send-authentication-link";
 import { signOut } from "./routes/auth/sign-out";
 import { createCollection } from "./routes/collections/create-collection";
 import { getCollections } from "./routes/collections/get-collections";
+import { acceptInvitation } from "./routes/invitations/accept-invitation";
+import { createInvitation } from "./routes/invitations/create-invitation";
+import { getPendingInvitations } from "./routes/invitations/get-pending-invitations";
+import { getMemberships } from "./routes/memberships/get-memberships";
 import { createOrganization } from "./routes/organizations/create-organization";
 import { getMembership } from "./routes/organizations/get-membership";
 import { getOrganization } from "./routes/organizations/get-organization";
@@ -25,6 +29,10 @@ server.register(getMembership)
 server.register(createCollection)
 server.register(getCollections)
 server.register(uploadAvatar)
+server.register(createInvitation)
+server.register(acceptInvitation)
+server.register(getPendingInvitations)
+server.register(getMemberships)
 
 server.listen({
   port: 3333,
