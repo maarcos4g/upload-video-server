@@ -27,6 +27,7 @@ export const createInvitation: FastifyPluginAsyncZod = async (server) => {
           response: {
             201: z.object({
               invitationId: z.uuid(),
+              invitationURL: z.url()
             })
           }
         }
@@ -38,28 +39,28 @@ export const createInvitation: FastifyPluginAsyncZod = async (server) => {
         const { membership, organization } = await request.getUserMembership(slug)
 
         if (membership.role !== 'admin') {
-          throw new UnauthorizedError(`You're not allowed to send invitations`)
+          throw new BadRequestError(`You're not allowed to send invitations`)
         }
 
         if (email) {
           const [userAlreadyMember] = await database
-          .select()
-          .from(schema.membership)
-          .where(
-            and(
-              eq(schema.membership.organizationId, organization.id),
-              exists(database
-                .select()
-                .from(schema.user)
-                .where(
-                  and(
-                    eq(schema.user.id, schema.membership.userId),
-                    eq(schema.user.email, email)
+            .select()
+            .from(schema.membership)
+            .where(
+              and(
+                eq(schema.membership.organizationId, organization.id),
+                exists(database
+                  .select()
+                  .from(schema.user)
+                  .where(
+                    and(
+                      eq(schema.user.id, schema.membership.userId),
+                      eq(schema.user.email, email)
+                    )
                   )
                 )
               )
             )
-          )
 
           if (userAlreadyMember) {
             throw new BadRequestError('User is already a member of this organzation')
@@ -86,7 +87,7 @@ export const createInvitation: FastifyPluginAsyncZod = async (server) => {
 
         //send email with invitation link
 
-        return reply.status(201).send({ invitationId: invitation.id })
+        return reply.status(201).send({ invitationId: invitation.id, invitationURL: invitationURL.href })
       }
     )
 }
