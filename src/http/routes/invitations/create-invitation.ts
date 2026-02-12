@@ -39,7 +39,7 @@ export const createInvitation: FastifyPluginAsyncZod = async (server) => {
         const { membership, organization } = await request.getUserMembership(slug)
 
         if (membership.role !== 'admin') {
-          throw new BadRequestError(`You're not allowed to send invitations`)
+          throw new UnauthorizedError(`You're not allowed to send invitations`)
         }
 
         if (email) {
