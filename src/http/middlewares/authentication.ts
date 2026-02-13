@@ -11,8 +11,6 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
       try {
         const token = request.cookies.auth
 
-        console.log('Token:', token)
-
         if (!token) {
           throw new UnauthorizedError('No token provided')
         }

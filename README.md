@@ -1,8 +1,15 @@
 # upload.video
 
-Uma plataforma SaaS **Multi-tenant** robusta para gerenciamento e hospedagem de vídeos, construída com foco em performance e controle de acesso granular.
+Uma plataforma SaaS Multi-tenant robusta para gerenciamento, hospedagem e distribuição de vídeos. O projeto é construído com foco em performance e controle de acesso granular (RBAC), permitindo que processos de Inteligência Artificial sejam executados sobre os vídeos, como geração de thumbnails, títulos, descrições e transcrições.
 
-O projeto utiliza uma arquitetura moderna para isolamento de dados por organização e permissões baseadas em funções (Role-Based Access Control).
+A arquitetura garante o isolamento total de dados por organização e utiliza permissões baseadas em funções para segurança máxima.
+
+#### 🚀 Tech Stack
+- Backend: Node.js, Fastify, Drizzle ORM, PostgreSQL e Zod.
+
+- Frontend: React, TanStack Query e Tailwind CSS.
+
+- Infra/Storage: Cloudflare R2 e bunny.net.
 
 ## Features
 ### Autenticação
