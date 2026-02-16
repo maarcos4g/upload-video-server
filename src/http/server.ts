@@ -6,7 +6,9 @@ import { getProfile } from "./routes/auth/get-profile";
 import { sendAuthenticationLink } from "./routes/auth/send-authentication-link";
 import { signOut } from "./routes/auth/sign-out";
 import { createCollection } from "./routes/collections/create-collection";
+import { deleteCollection } from "./routes/collections/delete-collection";
 import { getCollections } from "./routes/collections/get-collections";
+import { updateCollection } from "./routes/collections/update-collection";
 import { acceptInvitation } from "./routes/invitations/accept-invitation";
 import { createInvitation } from "./routes/invitations/create-invitation";
 import { getPendingInvitations } from "./routes/invitations/get-pending-invitations";
@@ -37,6 +39,8 @@ server.register(getPendingInvitations)
 server.register(getMemberships)
 server.register(shutdownOrganization)
 server.register(updateOrganization)
+server.register(updateCollection)
+server.register(deleteCollection)
 
 server.listen({
   port: 3333,
