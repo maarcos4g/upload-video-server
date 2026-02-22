@@ -10,7 +10,10 @@ const envSchema = z.object({
   CLOUDFLARE_R2_ACCESS_KEY_ID: z.string(),
   CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string(),
   CLOUDFLARE_R2_ENDPOINT: z.url(),
-  CLOUDFLARE_BUCKET_NAME: z.string()
+  CLOUDFLARE_BUCKET_NAME: z.string(),
+  BUNNY_API_KEY: z.string(),
+  BUNNY_LIBRARY_ID: z.string(),
+  BUNNY_NET_PULL_ZONE: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

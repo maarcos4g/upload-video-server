@@ -1,0 +1,1 @@
+ALTER TABLE "uploads" DROP CONSTRAINT "uploads_slug_unique";

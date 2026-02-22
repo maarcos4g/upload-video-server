@@ -57,6 +57,20 @@
       "when": 1770833203060,
       "tag": "0007_wise_captain_america",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1771352327570,
+      "tag": "0008_lush_sphinx",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1771353546069,
+      "tag": "0009_blushing_senator_kelly",
+      "breakpoints": true
     }
   ]
 }

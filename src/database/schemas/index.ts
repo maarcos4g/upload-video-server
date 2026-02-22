@@ -3,6 +3,8 @@ import { collection } from "./collection";
 import { invitation } from "./invitation";
 import { membership } from "./membership";
 import { organization } from "./organization";
+import { upload } from "./upload";
+import { uploadBatch } from "./upload-batch";
 import { user } from "./user";
 
 export const schema = {
@@ -11,5 +13,7 @@ export const schema = {
   membership,
   authLinks,
   collection,
-  invitation
+  invitation,
+  upload,
+  uploadBatch
 }
