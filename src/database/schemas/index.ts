@@ -1,3 +1,4 @@
+import { action } from "./actions";
 import { authLinks } from "./auth-links";
 import { collection } from "./collection";
 import { invitation } from "./invitation";
@@ -15,5 +16,6 @@ export const schema = {
   collection,
   invitation,
   upload,
-  uploadBatch
+  uploadBatch,
+  action
 }

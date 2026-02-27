@@ -2,7 +2,8 @@ import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
 import { env } from "@/env";
 import { BadRequestError } from "@/http/errors/bad-request-error";
-import { bunnyStream } from "@/services/bunny-net";
+import { startBackgroundProcessing } from "@/services/action-processor";
+import { bunnyNetConfig, bunnyStream } from "@/services/bunny-net";
 import { createSlug } from "@/utils/create-slug";
 import { eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
@@ -45,6 +46,7 @@ export const bunnyWebhook: FastifyPluginAsyncZod = async (server) => {
             .where(
               eq(schema.upload.externalId, VideoGuid)
             )
+
         }
 
         //status 2 -> processing
@@ -69,7 +71,7 @@ export const bunnyWebhook: FastifyPluginAsyncZod = async (server) => {
         }
 
         //status 4 -> error
-        if (Status === 4) {
+        if (Status === 5) {
           const [upload] = await database
             .select()
             .from(schema.upload)
@@ -109,14 +111,6 @@ export const bunnyWebhook: FastifyPluginAsyncZod = async (server) => {
             throw new BadRequestError('Upload not found')
           }
 
-          try {
-            await bunnyStream.triggerSmartGenerateMetatadas(VideoGuid)
-            await new Promise((resolve) => setTimeout(resolve, 15000))
-          } catch (e) {
-            console.error("IA falhou, mas seguindo com o processamento...")
-          }
-
-
           const videoDetails = await bunnyStream.getVideoDetails(VideoGuid)
 
           if (!videoDetails) {
@@ -134,8 +128,8 @@ export const bunnyWebhook: FastifyPluginAsyncZod = async (server) => {
                 duration: videoDetails.length,
                 sizeInBytes: videoDetails.storageSize,
                 processedAt: new Date(),
-                streamURL: `https://iframe.mediadelivery.net/play/${VideoLibraryId}/${upload.externalId}`,
-                thumbnailURL: `https://${env.BUNNY_NET_PULL_ZONE}/${upload.externalId}/${videoDetails.thumbnailFileName}`
+                streamURL: `https://${bunnyNetConfig.stream.pullZone}/${upload.externalId}/playlist.m3u8`,
+                thumbnailURL: `https://${bunnyNetConfig.stream.pullZone}/${upload.externalId}/${videoDetails.thumbnailFileName}`
               })
               .where(
                 eq(schema.upload.externalId, VideoGuid)
@@ -160,6 +154,39 @@ export const bunnyWebhook: FastifyPluginAsyncZod = async (server) => {
               }
             }
           })
+
+          setImmediate(() => startBackgroundProcessing(upload.id));
+        }
+
+        //title and description generated
+        if (Status === 10) {
+          const [upload] = await database
+            .select()
+            .from(schema.upload)
+            .where(eq(schema.upload.externalId, VideoGuid))
+
+          if (!upload) {
+            throw new BadRequestError('Upload not found')
+          }
+
+          const videoDetails = await bunnyStream.getVideoDetails(VideoGuid)
+
+          if (!videoDetails) {
+            throw new BadRequestError('Could not fetch video details from Bunny')
+          }
+
+          await database
+            .update(schema.upload)
+            .set({
+              title: videoDetails.title,
+              description: videoDetails.description,
+              slug: createSlug(videoDetails.title),
+            })
+            .where(
+              eq(schema.upload.externalId, VideoGuid)
+            )
+
+          setImmediate(() => startBackgroundProcessing(upload.id));
         }
 
         return reply.send()

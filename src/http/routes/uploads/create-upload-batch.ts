@@ -87,6 +87,33 @@ export const createUploadBatch: FastifyPluginAsyncZod = async (server) => {
             )
             .returning()
 
+            const actions = uploads.flatMap(upload => ([
+              {
+                  type: 'process_video' as 'process_video',
+                  status: 'pending' as 'pending',
+                  uploadId: upload.id,
+                },
+                {
+                  type: 'generate_transcription' as 'generate_transcription',
+                  status: 'pending' as 'pending',
+                  uploadId: upload.id,
+                },
+                {
+                  type: 'generate_ai_metadata' as 'generate_ai_metadata',
+                  status: 'pending' as 'pending',
+                  uploadId: upload.id,
+                },
+                {
+                  type: 'upload_audio_to_external_provider' as 'upload_audio_to_external_provider',
+                  status: 'pending' as 'pending',
+                  uploadId: upload.id,
+                },
+            ]))
+
+            await transaction
+            .insert(schema.action)
+            .values(actions)
+
           const files = bunnyData.map((video, index) => ({
             ...video,
             uploadId: uploads[index].id,

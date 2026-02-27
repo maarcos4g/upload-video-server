@@ -71,6 +71,27 @@
       "when": 1771353546069,
       "tag": "0009_blushing_senator_kelly",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1771800638578,
+      "tag": "0010_black_nitro",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1771803270075,
+      "tag": "0011_real_lightspeed",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1772136770738,
+      "tag": "0012_romantic_gertrude_yorkes",
+      "breakpoints": true
     }
   ]
 }

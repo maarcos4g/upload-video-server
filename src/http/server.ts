@@ -21,9 +21,11 @@ import { shutdownOrganization } from "./routes/organizations/shutdown-organizati
 import { updateOrganization } from "./routes/organizations/update-organization";
 import { uploadAvatar } from "./routes/upload-avatar";
 import { bunnyWebhook } from "./routes/uploads/bunny-webhook";
-import { createUpload } from "./routes/uploads/create-upload";
 import { createUploadBatch } from "./routes/uploads/create-upload-batch";
+import { getUpload } from "./routes/uploads/get-upload";
 import { getUploads } from "./routes/uploads/get-uploads";
+import { getUploadActions } from "./routes/actions/get-upload-actions";
+import { requestGenerateMetadata } from "./routes/uploads/request-generate-metadata";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -45,10 +47,12 @@ server.register(shutdownOrganization)
 server.register(updateOrganization)
 server.register(updateCollection)
 server.register(deleteCollection)
-server.register(createUpload)
 server.register(createUploadBatch)
 server.register(bunnyWebhook)
 server.register(getUploads)
+server.register(getUpload)
+server.register(getUploadActions)
+server.register(requestGenerateMetadata)
 
 server.listen({
   port: 3333,

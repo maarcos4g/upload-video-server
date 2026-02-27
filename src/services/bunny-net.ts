@@ -1,6 +1,5 @@
 import { env } from "@/env";
 import { BadRequestError } from "@/http/errors/bad-request-error";
-import { createHash } from "node:crypto";
 
 type VideoResponse = {
   videoLibraryId: number
@@ -81,12 +80,12 @@ export const bunnyStream = {
 
     return response.json() as Promise<VideoResponse>
   },
-  async triggerSmartGenerateMetatadas(videoId: string) {
+  async triggerSmartGenerateMetatadas(videoId: string, options: { generateTitle?: boolean; generateDescription?: boolean }) {
     const URL = `${bunnyNetConfig.stream.baseURL}/library/${bunnyNetConfig.stream.libraryId}/videos/${videoId}/smart`
 
     const bodyObject = {
-      generateTitle: true,
-      generateDescription: true,
+      generateTitle: options.generateTitle ?? true,
+      generateDescription: options.generateDescription ?? true,
     }
 
     const response = await fetch(URL, {
@@ -105,5 +104,19 @@ export const bunnyStream = {
     }
 
     return response.json()
+  },
+  async fetchTranscriptionFromBunny(videoId: string) {
+    try {
+      const vttURL = `https://${bunnyNetConfig.stream.pullZone}/${videoId}/captions/pt-auto.vtt`
+
+      const vttResponse = await fetch(vttURL)
+      if (vttResponse.ok) {
+        const transcription = await vttResponse.text()
+        return transcription
+      }
+      return null
+    } catch (error) {
+      console.error('Erro ao buscar VTT:', error)
+    }
   }
 }

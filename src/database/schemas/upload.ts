@@ -17,6 +17,7 @@ export const upload = pgTable('uploads', {
   streamURL: text(),
   thumbnailURL: text(),
   audioStorageKey: text(),
+  transcription: text(),
   createdAt: timestamp().defaultNow(),
   updatedAt: timestamp().$onUpdateFn(() => new Date()),
   processedAt: timestamp(),
