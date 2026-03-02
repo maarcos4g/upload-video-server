@@ -8,7 +8,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "build": "tsup src",
-    "start": "node build/src/http/server.mjs"
+    "start": "pnpm db:migrate && node build/src/http/server.mjs"
   },
   "keywords": [],
   "author": "",
