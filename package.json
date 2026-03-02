@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch --env-file .env src/http/server.ts",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "build": "tsup src",
+    "start": "node build/src/http/server.mjs"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +34,7 @@
     "@types/react": "^19.2.14",
     "axios": "^1.13.5",
     "dayjs": "^1.11.19",
+    "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
     "fastify": "^5.7.2",
     "fastify-plugin": "^5.1.0",
@@ -41,6 +44,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "resend": "^6.9.2",
+    "tsup": "^8.5.1",
     "zod": "^4.3.6"
   }
 }
