@@ -3,7 +3,6 @@ import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 
 export const signOut: FastifyPluginAsyncZod = async (server) => {
   server
-  .register(authenticationMiddleware)
     .post(
       '/sign-out',
       {
@@ -12,8 +11,12 @@ export const signOut: FastifyPluginAsyncZod = async (server) => {
           tags: ['auth']
         }
       },
-      async (request, reply) => {
-        await request.signOut()
+      async (_request, reply) => {
+        reply.clearCookie('auth', {
+          path: '/',
+          httpOnly: true,
+          sameSite: 'lax'
+        })
 
         return reply.status(200).send()
       }

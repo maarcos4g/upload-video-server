@@ -13,6 +13,5 @@ declare module 'fastify' {
     signUser(payload: {
       sub: string
     }): Promise<void>
-    signOut(): Promise<void>
   }
 }

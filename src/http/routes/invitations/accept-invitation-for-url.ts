@@ -7,25 +7,22 @@ import { eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod/v4";
 
-export const acceptInvitation: FastifyPluginAsyncZod = async (server) => {
+export const acceptInvitationForURL: FastifyPluginAsyncZod = async (server) => {
   server
     .register(authenticationMiddleware)
-    .patch(
-      '/invitations/:inviteId/accept',
+    .get(
+      '/invite/:token',
       {
         schema: {
           params: z.object({
-            inviteId: z.uuid()
-          }),
-          response: {
-            204: z.null()
-          }
+            token: z.string()
+          })
         }
       },
       async (request, reply) => {
         const userId = await request.getCurrentUserId()
 
-        const { inviteId } = request.params
+        const { token } = request.params
 
         return database.transaction(async (transaction) => {
           const [result] = await transaction
@@ -39,7 +36,7 @@ export const acceptInvitation: FastifyPluginAsyncZod = async (server) => {
               eq(schema.organization.id, schema.invitation.organizationId)
             )
             .where(
-              eq(schema.invitation.id, inviteId)
+              eq(schema.invitation.token, token)
             )
 
           if (!result) {
@@ -88,7 +85,7 @@ export const acceptInvitation: FastifyPluginAsyncZod = async (server) => {
               )
             )
 
-          return reply.status(204).send(null)
+          return reply.redirect(`${env.AUTH_REDIRECT_URL}/org/${organization.slug}`, 301)
         })
 
       }

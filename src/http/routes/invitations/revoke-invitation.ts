@@ -7,11 +7,11 @@ import { eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod/v4";
 
-export const acceptInvitation: FastifyPluginAsyncZod = async (server) => {
+export const revokeInvitation: FastifyPluginAsyncZod = async (server) => {
   server
     .register(authenticationMiddleware)
     .patch(
-      '/invitations/:inviteId/accept',
+      '/invitations/:inviteId/revoke',
       {
         schema: {
           params: z.object({
@@ -67,20 +67,10 @@ export const acceptInvitation: FastifyPluginAsyncZod = async (server) => {
             throw new BadRequestError('This invitation was sent to another email address')
           }
 
-
-          await transaction
-            .insert(schema.membership)
-            .values({
-              organizationId: organization.id,
-              userId: userId,
-              role: invitation.role,
-            })
-            .onConflictDoNothing()
-
           await transaction
             .update(schema.invitation)
             .set({
-              status: 'accepted',
+              status: 'revoked',
               updatedAt: new Date()
             })
             .where(

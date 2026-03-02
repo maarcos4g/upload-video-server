@@ -9,7 +9,6 @@ import { createCollection } from "./routes/collections/create-collection";
 import { deleteCollection } from "./routes/collections/delete-collection";
 import { getCollections } from "./routes/collections/get-collections";
 import { updateCollection } from "./routes/collections/update-collection";
-import { acceptInvitation } from "./routes/invitations/accept-invitation";
 import { createInvitation } from "./routes/invitations/create-invitation";
 import { getPendingInvitations } from "./routes/invitations/get-pending-invitations";
 import { getMemberships } from "./routes/memberships/get-memberships";
@@ -26,6 +25,10 @@ import { getUpload } from "./routes/uploads/get-upload";
 import { getUploads } from "./routes/uploads/get-uploads";
 import { getUploadActions } from "./routes/actions/get-upload-actions";
 import { requestGenerateMetadata } from "./routes/uploads/request-generate-metadata";
+import { getInvitations } from "./routes/invitations/get-invitations";
+import { acceptInvitationForURL } from "./routes/invitations/accept-invitation-for-url";
+import { acceptInvitation } from "./routes/invitations/accept-invitation";
+import { revokeInvitation } from "./routes/invitations/revoke-invitation";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -40,7 +43,7 @@ server.register(createCollection)
 server.register(getCollections)
 server.register(uploadAvatar)
 server.register(createInvitation)
-server.register(acceptInvitation)
+server.register(acceptInvitationForURL)
 server.register(getPendingInvitations)
 server.register(getMemberships)
 server.register(shutdownOrganization)
@@ -53,6 +56,9 @@ server.register(getUploads)
 server.register(getUpload)
 server.register(getUploadActions)
 server.register(requestGenerateMetadata)
+server.register(getInvitations)
+server.register(acceptInvitation)
+server.register(revokeInvitation)
 
 server.listen({
   port: 3333,

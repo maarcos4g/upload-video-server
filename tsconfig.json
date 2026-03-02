@@ -11,6 +11,9 @@
     ],
     "module": "nodenext",
     "target": "es2022",
+
+    "jsx": "react-jsx",
+
     "paths": {
       "@/*": [
         "./src/*"

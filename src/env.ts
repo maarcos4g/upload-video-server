@@ -14,6 +14,7 @@ const envSchema = z.object({
   BUNNY_API_KEY: z.string(),
   BUNNY_LIBRARY_ID: z.string(),
   BUNNY_NET_PULL_ZONE: z.string(),
+  RESEND_API_KEY: z.string()
 })
 
 export const env = envSchema.parse(process.env)

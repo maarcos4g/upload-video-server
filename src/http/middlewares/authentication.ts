@@ -4,17 +4,16 @@ import { and, eq } from "drizzle-orm";
 import { FastifyInstance } from "fastify";
 import fastifyPlugin from "fastify-plugin";
 import { UnauthorizedError } from "../errors/unauthorized";
+import { BadRequestError } from "../errors/bad-request-error";
 
 export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async (request, reply) => {
     request.getCurrentUserId = async () => {
       try {
         const token = request.cookies.auth
-
         if (!token) {
           throw new UnauthorizedError('No token provided')
         }
-
         const { sub } = await request.jwtVerify<{ sub: string }>()
         return sub
       } catch (error) {
@@ -63,9 +62,6 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
             maxAge: 7 * 24 * 60 * 60, //7 days
             path: '/'
           })
-      },
-      request.signOut = async () => {
-        await reply.clearCookie('auth', { path: '/' })
       }
   })
 })

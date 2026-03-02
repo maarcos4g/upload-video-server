@@ -5,6 +5,8 @@ import { env } from "@/env";
 import { BadRequestError } from "@/http/errors/bad-request-error";
 import { UnauthorizedError } from "@/http/errors/unauthorized";
 import { authenticationMiddleware } from "@/http/middlewares/authentication";
+import { resend } from "@/services/resend";
+import { SendInvitationLinkTemplate } from "@/templates/send-invitation-link";
 import { and, eq, exists } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { randomBytes } from "node:crypto";
@@ -79,13 +81,27 @@ export const createInvitation: FastifyPluginAsyncZod = async (server) => {
             authorId: userId
           })
           .returning({
-            id: schema.invitation.id
+            id: schema.invitation.id,
           })
 
         const invitationURL = new URL(`/invite/${token}`, env.API_BASE_URL)
-        console.log(invitationURL.href)
 
-        //send email with invitation link
+        if (email) {
+          const { error } = await resend.emails.send({
+            from: 'upload.video admin <send@maarcos4g.shop>',
+            to: [email],
+            subject: 'Link de convite',
+            react: SendInvitationLinkTemplate({
+              invitationLink: String(invitationURL),
+              organizationName: organization.name
+            })
+          })
+
+          if (error) {
+            console.error('Error sending invitation email:', error)
+            throw new BadRequestError('Failed to send invitation email. Please try again later.')
+          }
+        }
 
         return reply.status(201).send({ invitationId: invitation.id, invitationURL: invitationURL.href })
       }
