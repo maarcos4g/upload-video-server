@@ -60,7 +60,9 @@ export const authenticationMiddleware = fastifyPlugin(async (app: FastifyInstanc
           {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60, //7 days
-            path: '/'
+            path: '/',
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
           })
       }
   })
