@@ -118,5 +118,50 @@ export const bunnyStream = {
     } catch (error) {
       console.error('Erro ao buscar VTT:', error)
     }
+  },
+  async deleteVideo(videoId: string) {
+    const URL = `${bunnyNetConfig.stream.baseURL}/library/${bunnyNetConfig.stream.libraryId}/videos/${videoId}`
+
+    const response = await fetch(URL, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        AccessKey: bunnyNetConfig.stream.apiKey,
+      }
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null)
+      throw new BadRequestError(
+        `Failed to delete video from Bunny. Status: ${response.status}. Response: ${JSON.stringify(errorData)}`
+      )
+    }
+
+    return true
+  },
+  async updateVideo(videoId: string, updates: Partial<VideoResponse>): Promise<VideoResponse> {
+    const URL = `${bunnyNetConfig.stream.baseURL}/library/${bunnyNetConfig.stream.libraryId}/videos/${videoId}`
+
+    const body: Record<string, any> = {}
+    if (updates.title) body.title = updates.title
+    if (updates.description) body.description = updates.description
+
+    const response = await fetch(URL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        AccessKey: bunnyNetConfig.stream.apiKey,
+      },
+      body: JSON.stringify(body)
+    })
+
+    if (!response.ok) {
+      const errorData = await response.text()
+      console.error('Bunny API Error:', errorData)
+      throw new BadRequestError('Could not update video details in Bunny')
+    }
+
+    return response.json() as Promise<VideoResponse>
   }
 }

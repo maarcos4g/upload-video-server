@@ -29,6 +29,8 @@ import { getInvitations } from "./routes/invitations/get-invitations";
 import { acceptInvitationForURL } from "./routes/invitations/accept-invitation-for-url";
 import { acceptInvitation } from "./routes/invitations/accept-invitation";
 import { revokeInvitation } from "./routes/invitations/revoke-invitation";
+import { deleteUpload } from "./routes/uploads/delete-upload";
+import { updateUpload } from "./routes/uploads/update-upload";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -59,6 +61,8 @@ server.register(requestGenerateMetadata)
 server.register(getInvitations)
 server.register(acceptInvitation)
 server.register(revokeInvitation)
+server.register(deleteUpload)
+server.register(updateUpload)
 
 server.listen({
   port: 3333,

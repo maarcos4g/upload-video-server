@@ -2,7 +2,7 @@ import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
 import { uploadStatusEnum } from "@/database/schemas/upload-status";
 import { authenticationMiddleware } from "@/http/middlewares/authentication";
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod/v4";
 
@@ -85,6 +85,7 @@ export const getUploads: FastifyPluginAsyncZod = async (server) => {
                 : undefined
             )
           )
+          .orderBy(desc(schema.upload.createdAt))
 
         return reply.send({ uploads: results })
 
