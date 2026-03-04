@@ -31,6 +31,7 @@ import { acceptInvitation } from "./routes/invitations/accept-invitation";
 import { revokeInvitation } from "./routes/invitations/revoke-invitation";
 import { deleteUpload } from "./routes/uploads/delete-upload";
 import { updateUpload } from "./routes/uploads/update-upload";
+import { updateProfile } from "./routes/auth/update-profile";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -63,6 +64,7 @@ server.register(acceptInvitation)
 server.register(revokeInvitation)
 server.register(deleteUpload)
 server.register(updateUpload)
+server.register(updateProfile)
 
 server.listen({
   port: 3333,

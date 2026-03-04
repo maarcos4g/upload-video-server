@@ -17,13 +17,23 @@ export const getProfile: FastifyPluginAsyncZod = async (server) => {
           tags: ['auth'],
           response: {
             201: z.object({
-              user: schema.user
+              user: z.object({
+                id: z.uuid(),
+                name: z.string(),
+                email: z.email(),
+                avatarURL: z.url().nullable(),
+                sessionExpiresAt: z.coerce.date()
+              })
             })
           }
         }
       },
       async (request, reply) => {
         const userId = await request.getCurrentUserId()
+
+        const { exp } = await request.jwtVerify<{ exp: number }>()
+
+        const sessionExpiresAt = new Date(exp * 1000).toISOString()
 
         const [user] = await database
           .select({
@@ -42,7 +52,10 @@ export const getProfile: FastifyPluginAsyncZod = async (server) => {
         }
 
         return reply.send({
-          user
+          user: {
+            sessionExpiresAt,
+            ...user
+          }
         })
       }
     )
