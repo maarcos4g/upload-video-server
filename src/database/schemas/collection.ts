@@ -8,7 +8,7 @@ export const collection = pgTable('collections', {
   organizationId: uuid().references(() => organization.id, { onDelete: 'cascade' }).notNull(),
   //Referencia para a pasta pai (permitir estruturação em árvore no frontend)
   parentId: uuid().references((): any => collection.id, { onDelete: 'cascade' }),
-  ownerId: uuid().references(() => user.id).notNull(),
+  ownerId: uuid().references(() => user.id, { onDelete: 'set null' }).notNull(),
 
   createdAt: timestamp().defaultNow(),
   updatedAt: timestamp(),
