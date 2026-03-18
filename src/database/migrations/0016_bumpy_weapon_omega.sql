@@ -1,0 +1,1 @@
+ALTER TABLE "organizations" ADD COLUMN "storage_limit_bytes" bigint DEFAULT 10737418240 NOT NULL;

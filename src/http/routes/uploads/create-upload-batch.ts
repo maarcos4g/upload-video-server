@@ -42,6 +42,12 @@ export const createUploadBatch: FastifyPluginAsyncZod = async (server) => {
         const { titles } = request.body
         const { organization } = await request.getUserMembership(slug)
 
+        if (organization.consumedStorageBytes >= organization.storageLimitBytes) {
+          throw new BadRequestError(
+            `You've reached your plan's storage limit. Upgrade to continue`
+          )
+        }
+
         const [collection] = await database
           .select()
           .from(schema.collection)

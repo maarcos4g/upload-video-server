@@ -1,0 +1,1 @@
+ALTER TABLE "organizations" ADD COLUMN "consumed_storage_bytes" bigint DEFAULT 0 NOT NULL;

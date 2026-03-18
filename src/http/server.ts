@@ -34,6 +34,7 @@ import { updateUpload } from "./routes/uploads/update-upload";
 import { updateProfile } from "./routes/auth/update-profile";
 import { deleteAccount } from "./routes/auth/delete-account";
 import { transferOrganization } from "./routes/organizations/transfer-organization";
+import { getOrganizationUsage } from "./routes/organizations/get-organization-usage";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -69,6 +70,7 @@ server.register(updateUpload)
 server.register(updateProfile)
 server.register(deleteAccount)
 server.register(transferOrganization)
+server.register(getOrganizationUsage)
 
 server.listen({
   port: 3333,

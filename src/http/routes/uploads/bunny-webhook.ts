@@ -1,5 +1,6 @@
 import { database } from "@/database/connection";
 import { schema } from "@/database/schemas";
+import { organization } from "@/database/schemas/organization";
 import { env } from "@/env";
 import { BadRequestError } from "@/http/errors/bad-request-error";
 import { startBackgroundProcessing } from "@/services/action-processor";
@@ -135,6 +136,15 @@ export const bunnyWebhook: FastifyPluginAsyncZod = async (server) => {
                 eq(schema.upload.externalId, VideoGuid)
               )
               .returning()
+
+              await transaction
+              .update(schema.organization)
+              .set({
+                consumedStorageBytes: Number(organization.consumedStorageBytes) + videoDetails.storageSize
+              })
+              .where(
+                eq(schema.organization.id, organization.id)
+              )
 
             if (updatedUpload.batchId) {
               const batchUploads = await transaction
