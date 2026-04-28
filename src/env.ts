@@ -16,7 +16,9 @@ const envSchema = z.object({
   BUNNY_LIBRARY_ID: z.string(),
   BUNNY_NET_PULL_ZONE: z.string(),
   RESEND_API_KEY: z.string(),
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development')
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  STRIPE_SECRET_KEY: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

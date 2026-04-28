@@ -25,6 +25,7 @@ export const getOrganization: FastifyPluginAsyncZod = async (server) => {
                 shouldAttachUsersByDomain: z.boolean(),
                 createdAt: z.date(),
                 ownerId: z.uuid(),
+                planId: z.uuid().nullable()
               })
             })
           }

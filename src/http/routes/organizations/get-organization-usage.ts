@@ -44,11 +44,9 @@ export const getOrganizationUsage: FastifyPluginAsyncZod = async (server) => {
 
         const storageUsedBytes = usage.totalBytes || 0
 
-        const LIMIT_10_GB = 10 * 1024 * 1024 * 1024
-
         return reply.send({
           storageUsedBytes,
-          storageLimitBytes: LIMIT_10_GB
+          storageLimitBytes: organization.storageLimitBytes
         })
       }
     )

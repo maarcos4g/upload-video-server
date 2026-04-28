@@ -22,6 +22,7 @@ export const getOrganizations: FastifyPluginAsyncZod = async (server) => {
                   name: z.string(),
                   avatarURL: z.url().nullable(),
                   slug: z.string(),
+                  planId: z.uuid().nullable(),
                   role: z.literal(['admin', 'member', 'viewer'])
                 })
               )
@@ -39,6 +40,7 @@ export const getOrganizations: FastifyPluginAsyncZod = async (server) => {
             avatarURL: schema.organization.avatarURL,
             slug: schema.organization.slug,
             role: schema.membership.role,
+            planId: schema.organization.planId
           })
           .from(schema.organization)
           .innerJoin(

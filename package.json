@@ -8,7 +8,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "build": "tsup src",
-    "start": "pnpm db:migrate && node build/src/http/server.mjs"
+    "start": "pnpm db:migrate && node build/src/http/server.mjs",
+    "seed-plans": "tsx src/database/seed-plans.ts"
   },
   "keywords": [],
   "author": "",
@@ -38,12 +39,14 @@
     "drizzle-orm": "^0.45.1",
     "fastify": "^5.7.2",
     "fastify-plugin": "^5.1.0",
+    "fastify-raw-body": "^5.0.0",
     "fastify-type-provider-zod": "^6.1.0",
     "fluent-ffmpeg": "^2.1.3",
     "postgres": "^3.4.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "resend": "^6.9.2",
+    "stripe": "^20.4.1",
     "tsup": "^8.5.1",
     "zod": "^4.3.6"
   }

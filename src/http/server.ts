@@ -35,6 +35,10 @@ import { updateProfile } from "./routes/auth/update-profile";
 import { deleteAccount } from "./routes/auth/delete-account";
 import { transferOrganization } from "./routes/organizations/transfer-organization";
 import { getOrganizationUsage } from "./routes/organizations/get-organization-usage";
+import { getPlans } from "./routes/billing/get-plans";
+import { createCheckout } from "./routes/billing/create-checkout";
+import { stripeWebhook } from "./routes/billing/stripe-webhook";
+import { createPortal } from "./routes/billing/create-billing-portal";
 
 server.register(createAccount)
 server.register(sendAuthenticationLink)
@@ -71,6 +75,10 @@ server.register(updateProfile)
 server.register(deleteAccount)
 server.register(transferOrganization)
 server.register(getOrganizationUsage)
+server.register(getPlans)
+server.register(createCheckout)
+server.register(stripeWebhook)
+server.register(createPortal)
 
 server.listen({
   port: 3333,

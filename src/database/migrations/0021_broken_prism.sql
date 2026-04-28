@@ -1,0 +1,1 @@
+ALTER TABLE "plans" ADD COLUMN "price_in_cents" text;

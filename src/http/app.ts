@@ -6,6 +6,7 @@ import fastify from 'fastify'
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod'
 import { errorHandler } from './error-handler'
 import { fastifyMultipart } from '@fastify/multipart'
+import fastifyRawBody from 'fastify-raw-body'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -32,6 +33,13 @@ server.register(fastifyJwt, {
     cookieName: 'auth',
     signed: false
   }
+})
+
+server.register(fastifyRawBody, {
+  field: 'rawBody',
+  global: false,
+  encoding: 'utf8',
+  runFirst: true
 })
 
 server.register(fastifyMultipart)

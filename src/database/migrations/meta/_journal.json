@@ -120,6 +120,48 @@
       "when": 1773665218919,
       "tag": "0016_bumpy_weapon_omega",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1773847482217,
+      "tag": "0017_faithful_maestro",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1773849980630,
+      "tag": "0018_daffy_spyke",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1773859873860,
+      "tag": "0019_optimal_cerebro",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1773860222458,
+      "tag": "0020_daffy_blazing_skull",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1773862909824,
+      "tag": "0021_broken_prism",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1774471341572,
+      "tag": "0022_minor_bedlam",
+      "breakpoints": true
     }
   ]
 }

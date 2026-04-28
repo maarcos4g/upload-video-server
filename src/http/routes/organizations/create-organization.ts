@@ -33,47 +33,62 @@ export const createOrganization: FastifyPluginAsyncZod = async (server) => {
 
         const { name, domain, shouldAttachUsersByDomain } = request.body
 
-          if (domain) {
-            const [organizationByDomain] = await database
-              .select()
-              .from(schema.organization)
-              .where(
-                eq(schema.organization.domain, domain)
-              )
+        if (domain) {
+          const [organizationByDomain] = await database
+            .select()
+            .from(schema.organization)
+            .where(
+              eq(schema.organization.domain, domain)
+            )
 
-            if (organizationByDomain) {
-              console.error('Another Organization with same domain already exists')
-              throw new BadRequestError('Another Organization with same domain already exists')
-            }
+          if (organizationByDomain) {
+            console.error('Another Organization with same domain already exists')
+            throw new BadRequestError('Another Organization with same domain already exists')
           }
+        }
 
-          await database.transaction(async (transaction) => {
-            const [organization] = await transaction
-              .insert(schema.organization)
-              .values({
-                name,
-                slug: createSlug(name),
-                domain,
-                shouldAttachUsersByDomain,
-                ownerId: userId
-              })
-              .returning({
-                id: schema.organization.id,
-                slug: schema.organization.slug,
-              })
-
-            await transaction
-              .insert(schema.membership)
-              .values({
-                organizationId: organization.id,
-                role: 'admin',
-                userId,
-              })
-
-            return reply.status(201).send({
-              organizationSlug: organization.slug
-            })
+        const [hobbyPlan] = await database
+          .select({
+            id: schema.plan.id,
+            storageLimitBytes: schema.plan.storageLimitBytes
           })
+          .from(schema.plan)
+          .where(
+            eq(schema.plan.slug, 'hobby')
+          )
+
+        if (!hobbyPlan) {
+          throw new BadRequestError('Plano Hobby não configurado no sistema.')
+        }
+
+        const result = await database.transaction(async (transaction) => {
+          const [organization] = await transaction
+            .insert(schema.organization)
+            .values({
+              name,
+              slug: createSlug(name),
+              domain,
+              shouldAttachUsersByDomain,
+              ownerId: userId,
+              planId: hobbyPlan.id,
+              storageLimitBytes: hobbyPlan.storageLimitBytes
+            })
+            .returning({
+              id: schema.organization.id,
+              slug: schema.organization.slug,
+            })
+
+          await transaction
+            .insert(schema.membership)
+            .values({
+              organizationId: organization.id,
+              role: 'admin',
+              userId,
+            })
+
+          return { organizationSlug: organization.slug }
+        })
+        reply.status(201).send(result)
       }
     )
 }

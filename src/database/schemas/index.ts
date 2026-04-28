@@ -4,6 +4,7 @@ import { collection } from "./collection";
 import { invitation } from "./invitation";
 import { membership } from "./membership";
 import { organization } from "./organization";
+import { plan } from "./plan";
 import { upload } from "./upload";
 import { uploadBatch } from "./upload-batch";
 import { user } from "./user";
@@ -17,5 +18,6 @@ export const schema = {
   invitation,
   upload,
   uploadBatch,
-  action
+  action,
+  plan
 }
